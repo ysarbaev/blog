@@ -43,8 +43,6 @@ class BlogServiceTest extends FlatSpec with BeforeAndAfter{
     service.createPost(PostReq("post 1", "We don need no education"))
     service.createPost(PostReq("post 2", "We don need no thought control"))
 
-    println(posts.map(_.title))
-
     assert(posts.head.title == "post 2")
 
     service.updatePost(posts.head.id, PostReq("post 1 upd", "updated"))

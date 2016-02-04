@@ -21,11 +21,8 @@ class BlogService() {
         prolog_end_pos int not null,
         body varchar not null,
         created datetime not null default now(),
-        updated datetime null,
-        last_mod datetime as coalesce(updated, created)
+        updated datetime not null default now()
       ); 
-      
-      create index if not exists post_last_mod_idx on post(last_mod);
     """.execute.apply()
     sql"""    
       create table if not exists comment
@@ -97,7 +94,7 @@ class BlogService() {
                p.created,
                p.updated
         from post p inner join comment_counter cc on p.id = cc.postId
-        order by p.last_mod desc) limit ${limit} offset ${offset}
+        order by p.updated desc) limit ${limit} offset ${offset}
       """.map(ShortPost(_)).list.apply()
     }
   }
